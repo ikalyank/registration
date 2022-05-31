@@ -1,5 +1,2 @@
-package com.app.registration.model;
-
-public class User {
-    
+package com.app.registration.model;public class User {
 }
