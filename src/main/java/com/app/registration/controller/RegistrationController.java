@@ -1,30 +1,29 @@
 package com.app.registration.controller;
 
 import com.app.registration.model.User;
-import com.app.registration.service.RegistrationService;
+import com.app.registration.service.RegistrationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 public class RegistrationController{
     @Autowired
-    private RegistrationService service;
+    private RegistrationServiceImpl register_loginservice;
     @PostMapping("/registeruser")
     @CrossOrigin("http://localhost:4200")
     public User registerUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         if (tempEmailId != null && !"".equals(tempEmailId))
         {
-           User userobj = service.fetchUserByEmailid(tempEmailId);
+           User userobj = register_loginservice.fetchUserByEmailid(tempEmailId);
            if (userobj !=null)
            {
                throw new Exception("User with this"+ tempEmailId+ "Id already exists");
            }
         }
-        User userobj = service.saveUser(user);
+        User userobj = register_loginservice.saveUser(user);
         return userobj;
     }
     @PostMapping("/loginuser")
@@ -36,7 +35,7 @@ public class RegistrationController{
         User userobj=null;
         if (tempEmailId != null && tempPass != null)
         {
-            userobj = service.fetchUserByEmailIdAndPassword(tempEmailId,tempPass);
+            userobj = register_loginservice.fetchUserByEmailIdAndPassword(tempEmailId,tempPass);
         }
         if (userobj==null)
         {
@@ -53,9 +52,9 @@ public class RegistrationController{
         User userObj=null;
         if(tempEmailId !=null && tempPassword != null)
             {
-                userObj=service.fetchUserByEmailid(tempEmailId);
+                userObj=register_loginservice.fetchUserByEmailid(tempEmailId);
                 userObj.setPassword(tempPassword);
-                service.saveUser(userObj);
+                register_loginservice.saveUser(userObj);
             }
         if(userObj==null)
         {
